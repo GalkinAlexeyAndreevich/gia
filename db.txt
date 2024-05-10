@@ -1,0 +1,44 @@
+create table role_users(
+	id_role int primary key auto_increment,
+    name varchar(100) not null
+);
+
+create table users(
+	id_user int primary key auto_increment,
+    login varchar(100) not null unique,
+    password varchar(50) not null,
+    id_role int not null,
+    foreign key (id_role) references role_users(id_role)
+);
+
+create table priority_on_repair(
+	id_priority int primary key auto_increment,
+    name varchar(100) not null
+);
+
+create table type_problem(
+	id_problem int primary key auto_increment,
+	name varchar(100) not null
+);
+
+create table request_on_repair(
+	id int primary key auto_increment,
+    date_created datetime not null default now(),
+    date_begin_repair datetime,
+    date_end_repair datetime,
+    equipment_name varchar(255) not null,
+    serial_number int,
+    type_problem_id int not null,
+    description_problem varchar(1024),
+    status int not null default 1,
+    priority_id int not null,
+    user_id int not null,
+    worker_id int,
+    report_on_repair varchar(1024),
+    repair_price int,
+    spent_money int,
+    foreign key (user_id) references users(id_user),
+    foreign key (worker_id) references users(id_user),
+    foreign key (type_problem_id) references type_problem(id_problem),
+    foreign key (priority_id) references priority_on_repair(id_priority)
+)
