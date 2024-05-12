@@ -1,0 +1,18 @@
+insert into users(login,password,role_id, phone) values
+('client1','123',1,'+7 987 876 76 43'),
+('client2','123',1,'+7 433 553 65 73'),
+('master1','123',2,'+7 724 743 22 77'),
+('master2','123',2,'+7 (4345) 54-43-77'),
+('manager','123',3,'');
+
+insert into type_problem(name) values ('Не включается'), ('Не заряжается'), ('Работает с перебоями'), ('Другое');
+insert into type_equipment(name) values ('Пылесос'), ('Телефон'), ('Ноутбук'), ('Планшет'), ('Другое');
+insert into priority_on_repair(name) values ('Низкий'), ('Средний'), ('Высокий');
+
+insert into equipment(name,serial_number,id_type_equipment) values
+('Пылесос Самсунг', '3253323', 1), ('poco x3 pro', 'fd3dgsd3432', 2),
+('Ноутбук lenovo legion 5', 'dsfsdsd253453', 3), ('проектор Cactus CS-PRE.09B.WVGA', '342gf23hhs252', 5);
+
+insert into requests(id_equipment, id_problem, description_problem, id_priority, id_user) values
+(2,1,'Телефон постоянно грелся и в один день не включился', 1,1),
+(4,2,'Проектор заряжается с перебоями, провод уже меняли', 1,2)

@@ -4,9 +4,59 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Document</title>
-	<script src="./main.js"></script>
+	<script src="./main.js" defer></script>
+	<link rel="stylesheet" href="style.css">
 </head>
 <body>
 	<h1 style="text-align: center;">Ремонт оборудования</h1>
+	<form class="registrationForm" name="registrationForm">
+		<h3>Регистрация</h3>
+		<input type="text" placeholder="Логин" name="login">
+		<input type="text" placeholder="Пароль" name="password">
+		<button>Зарегистрироваться</button>
+	</form>
+	<form class="authForm" name="authForm">
+		<h3>Авторизация</h3>
+		<input type="text" placeholder="Логин" name="login">
+		<input type="text" placeholder="Пароль" name="password">
+		<button>Войти</button>
+	</form>
+	<div class="mainContent hide">
+		<div>
+			<p class="loginUser"></p>
+			<p class="roleUser"></p>
+			<button class="exitBtn">Выйти</button>
+		</div>
+		<div class="clientContainer hide">
+			<div style="display: flex; flex-direction: row; gap:50px">
+				<form name="addOrder" style="display: flex; flex-direction: column; gap:10px">
+					<h3>Подать заявку на ремонт</h3>
+					<input style="width: 400px;" type="text" name="equipmentName" placeholder="Имя оборудования">
+					<input style="width: 400px;" type="text" name="serialNumber" placeholder="Серийный номер (необязательно)">
+					<select style="width: 400px;" name="typeProblem" aria-placeholder="Тип проблемы"></select>
+					<textarea style="width: 400px; height: 300px;" name="descriptionProblem" placeholder="Опишите проблему"></textarea>
+					<button style="width: 200px;">Подать заявку</button>
+				</form>
+				<div>
+					<h3>Ваши заявки на ремонт</h3>
+					<div class="repairDiv"></div>
+				</div>
+			</div>
+		</div>
+		<div class="workerContainer hide">
+			<h3>Заявки в работе</h3>
+			<div class="ordersWorkers"></div>
+		</div>
+		<div class="managerContainer hide">
+			<div>
+				<div>
+					<h3>Необработанные заявки</h3>
+				</div>
+				<div>
+					<h3>Статистика по выполненным задачам</h3>
+				</div>
+			</div>
+		</div>
+	</div>
 </body>
 </html>

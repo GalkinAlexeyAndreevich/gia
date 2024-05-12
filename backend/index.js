@@ -1,14 +1,24 @@
 import express from "express"
 import cors from "cors"
-import { usersRouter } from "./routes/users.js"
-import { connectClient } from "./connectClient.js"
+import mysql2 from "mysql2/promise"
 
 const app = express()
-const port = process.env.PORT || 5000 
+const port = process.env.PORT || 5755 
 
 app.use(cors())
 app.use(express.json())
-app.use("/users", usersRouter);
+
+export async function connectClient(){
+	const client = await mysql2.createConnection({
+		host:'localhost',
+		port:3306,
+		database:'mygia1',
+		password:'root',
+		user:'root'
+	})
+	client.connect()
+	return client
+}
 
 app.post("/executeSql", async(req,res)=>{
 	const {sqlString} = req.body 
@@ -17,6 +27,9 @@ app.post("/executeSql", async(req,res)=>{
 		const result = await client.execute(sqlString)
 		console.log(result[0]);
 		res.json(result[0])
+	}catch(e){
+		console.log("Прозошла ошибка", e);
+		res.sendStatus(500)
 	}finally{
 		client.end()
 	}

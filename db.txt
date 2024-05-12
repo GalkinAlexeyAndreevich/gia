@@ -1,14 +1,11 @@
-create table role_users(
-	id_role int primary key auto_increment,
-    name varchar(100) not null
-);
+create database mygia1;
+use mygia1;
 
 create table users(
 	id_user int primary key auto_increment,
     login varchar(100) not null unique,
     password varchar(50) not null,
-    id_role int not null,
-    foreign key (id_role) references role_users(id_role)
+    role_id int -- 1 - клиент 2 - мастер 3 - менеджер
 );
 
 create table priority_on_repair(
@@ -20,25 +17,57 @@ create table type_problem(
 	id_problem int primary key auto_increment,
 	name varchar(100) not null
 );
+create table type_equipment(
+	id_type_equipment int primary key auto_increment,
+	name varchar(100) not null
+);
+create table equipment(
+	id_equipment int primary key auto_increment,
+    name varchar(255) not null,
+    serial_number VARCHAR(50),
+    id_type_equipment int not null,
+    foreign key (id_type_equipment) references type_equipment(id_type_equipment)
+);
 
-create table request_on_repair(
-	id int primary key auto_increment,
+create table requests(
+	id_request int primary key auto_increment,
     date_created datetime not null default now(),
     date_begin_repair datetime,
     date_end_repair datetime,
-    equipment_name varchar(255) not null,
-    serial_number int,
-    type_problem_id int not null,
-    description_problem varchar(1024),
-    status int not null default 1,
-    priority_id int not null,
-    user_id int not null,
-    worker_id int,
-    report_on_repair varchar(1024),
+	id_equipment int not null,
+    id_problem int not null,
+    description_problem varchar(2000),
+    status int not null default 1, -- 1 - в ожидании 2 - в работе 3 - выполнено 4 - невыполненно
+    id_priority int not null,
+    id_user int not null,
+    foreign key (id_user) references users(id_user),
+    foreign key (id_problem) references type_problem(id_problem),
+    foreign key (id_equipment) references equipment(id_equipment),
+    foreign key (id_priority) references priority_on_repair(id_priority)
+);
+
+create table workers_on_request(
+	id_worker int not null,
+    id_request int not null,
+    foreign key (id_worker) references users(id_user),
+	foreign key (id_request) references requests(id_request),
+    primary key(id_worker, id_request)
+);
+
+create table report_on_request(
+	id_request int not null,
+	report_on_repair varchar(4000),
     repair_price int,
     spent_money int,
-    foreign key (user_id) references users(id_user),
-    foreign key (worker_id) references users(id_user),
-    foreign key (type_problem_id) references type_problem(id_problem),
-    foreign key (priority_id) references priority_on_repair(id_priority)
+    foreign key (id_request) references requests(id_request)
+);
+
+create table actions_on_request(
+	id_action int primary key auto_increment,
+	id_worker int not null,
+    id_request int not null,
+    content varchar(2000) not null, 
+    price int,
+    date_created datetime default now(),
+    foreign key (id_worker,id_request) references workers_on_request(id_worker,id_request)
 )
